@@ -1,0 +1,9 @@
+include: package:lint/analysis_options.yaml
+
+linter:
+  rules:
+    non_constant_identifier_names: false
+
+analyzer:
+  errors:
+    unused_import: warning
