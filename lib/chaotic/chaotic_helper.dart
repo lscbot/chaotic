@@ -6,6 +6,7 @@ Future<void> _init_analysis_options() async {
 linter:
   rules:
     non_constant_identifier_names: false
+    sort_pub_dependencies: false
 
 analyzer:
   errors:
@@ -23,8 +24,8 @@ Future<void> _create_project_structure() async {
   final images = _getDir('images', assets);
   final fonts = _getDir('fonts', assets);
   final lang = _getDir('lang', assets);
-  final ar = _getFile('ar.js', lang);
-  final en = _getFile('en.js', lang);
+  final ar = _getFile('ar.json', lang);
+  final en = _getFile('en.json', lang);
   //src
   final src = Directory('./lib/src');
   //commons
@@ -90,6 +91,8 @@ Future<void> _create_project_structure() async {
   await _create(structure);
   await commons.writeAsString('''export 'color.dart';
 export 'path_and_apis.dart';''');
+  await ar.writeAsString('{}');
+  await en.writeAsString('{}');
 }
 
 Future<void> _add_packages() async {
@@ -105,15 +108,20 @@ Future<void> _add_packages() async {
   flutter pub add sizer
   flutter pub add flutter_svg
   flutter pub add get
+  flutter pub get
   ''');
   } catch (e) {}
 }
 
 Future<void> _init_yaml() async {
-  final assets = '''\nassets:
-  - assets/lang/
-  - assets/images/''';
+  final assets = '''\n  assets:
+    - assets/images/
+    - assets/lang/''';
   final yaml = File('./pubspec.yaml');
+  final yaml_content = await yaml.readAsString();
+  final new_yaml_content = yaml_content.split('\n')
+    ..removeWhere((line) => line.trim().startsWith('#'));
+  await yaml.writeAsString(new_yaml_content.join('\n'));
   await yaml.writeAsString(assets, mode: FileMode.append);
 }
 
@@ -124,23 +132,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'src/screen/screens.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
-  runApp(
-    MultiProvider(
-      providers: const [],
-      child: EasyLocalization(
-        supportedLocales: const [
-          Locale('en'),
-          Locale('ar'),
-        ],
-        path: 'assets/lang',
-        fallbackLocale: const Locale('en'),
-        child: MyApp(),
-      ),
+  
+  Provider.debugCheckInvalidValueType = null;
+  
+    runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ar'),
+      ],
+      path: 'assets/lang',
+      fallbackLocale: const Locale('en'),
+      child: MyApp(),
     ),
   );
 }
@@ -155,7 +163,9 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        // home: ,
+        // home: Provider(create: (_) => , 
+            //   child:,
+            // ),
       ),
     );
   }

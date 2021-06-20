@@ -41,6 +41,7 @@ export '$screen_name/${screen_name}_provider.dart';''', mode: FileMode.append);
   new_screen.writeAsString('''import 'package:flutter/material.dart';
 import 'local_widget/local_widgets.dart';
 import '${screen_name}_provider.dart';
+import 'src/screen/screens.dart';
 import 'package:provider/provider.dart';
 
 
@@ -173,3 +174,7 @@ void init() async {
   await _init_main();
   await _add_packages();
 }
+
+/**
+ *
+ */
