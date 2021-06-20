@@ -1,6 +1,6 @@
 part of chaotic;
 
-Future<void> _init_analysis_options() async{
+Future<void> _init_analysis_options() async {
   final analysis_options = '''include: package:lint/analysis_options.yaml
 
 linter:
@@ -12,17 +12,17 @@ analyzer:
     unused_import: warning''';
 
   final analysis_options_file = File('./analysis_options.yaml');
-  if(analysis_options_file.existsSync()) return;
+  if (analysis_options_file.existsSync()) return;
   await analysis_options_file.create();
   await analysis_options_file.writeAsString(analysis_options);
 }
 
 Future<void> _create_project_structure() async {
-  //assats
+  //assets
   final assets = Directory('./assets');
   final images = _getDir('images', assets);
   final fonts = _getDir('fonts', assets);
-  final lang = _getDir('langs', assets);
+  final lang = _getDir('lang', assets);
   final ar = _getFile('ar.js', lang);
   final en = _getFile('en.js', lang);
   //src
@@ -87,7 +87,9 @@ Future<void> _create_project_structure() async {
     ],
   };
 
-  _create(structure);
+  await _create(structure);
+  await commons.writeAsString('''export 'color.dart';
+export 'path_and_apis.dart';''');
 }
 
 Future<void> _add_packages() async {
@@ -109,10 +111,10 @@ Future<void> _add_packages() async {
 
 Future<void> _init_yaml() async {
   final assets = '''\nassets:
-  - assets/langs/
+  - assets/lang/
   - assets/images/''';
-  final yamel = File('./pubspec.yaml');
-  await yamel.writeAsString(assets, mode: FileMode.append);
+  final yaml = File('./pubspec.yaml');
+  await yaml.writeAsString(assets, mode: FileMode.append);
 }
 
 Future<void> _init_main() async {
@@ -135,7 +137,7 @@ Future<void> main() async {
           Locale('en'),
           Locale('ar'),
         ],
-        path: 'assets/langs',
+        path: 'assets/lang',
         fallbackLocale: const Locale('en'),
         child: MyApp(),
       ),
@@ -161,7 +163,7 @@ class MyApp extends StatelessWidget {
 ''';
 
   final main_file = File('./lib/main.dart');
-  if(main_file.existsSync()) return;
+  if (main_file.existsSync()) return;
   await main_file.writeAsString(main);
 }
 
