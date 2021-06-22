@@ -1,13 +1,13 @@
-library chaotic;
+library init;
 
 import 'dart:io';
 
 import 'package:process_run/shell.dart';
 
-part 'chaotic_helper.dart';
 part 'extensions.dart';
 part 'files_and_folders.dart';
 part 'files_templates.dart';
+part 'init_helper.dart';
 
 Future<void> init() async {
   await _create_project_structure();
@@ -135,7 +135,3 @@ Future<void> new_local_widget(
   await new_widget_file
       .writeAsString(_new_widget_temp(local_widget_name.to_camelcase()));
 }
-
-/**
- * text , scrollable column,
- */

@@ -1,4 +1,4 @@
-part of chaotic;
+part of init;
 
 const _analysis_options_temp = '''
 include: package:lint/analysis_options.yaml

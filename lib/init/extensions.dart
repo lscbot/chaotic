@@ -1,4 +1,4 @@
-part of chaotic;
+part of init;
 
 extension on String {
   String to_camelcase() {

@@ -1,4 +1,4 @@
-part of chaotic;
+part of init;
 
 //assets
 final _assets_folder = Directory('./assets');

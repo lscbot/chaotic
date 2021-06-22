@@ -1,4 +1,4 @@
-part of chaotic;
+part of init;
 
 Future<void> _create_project_structure() async {
   await _create_structure_from_map(_structure);
