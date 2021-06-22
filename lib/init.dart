@@ -4,10 +4,10 @@ import 'dart:io';
 
 import 'package:process_run/shell.dart';
 
-part 'extensions.dart';
-part 'files_and_folders.dart';
-part 'files_templates.dart';
-part 'init_helper.dart';
+part 'init/extensions.dart';
+part 'init/files_and_folders.dart';
+part 'init/files_templates.dart';
+part 'init/init_helper.dart';
 
 Future<void> init() async {
   await _create_project_structure();
