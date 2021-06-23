@@ -105,8 +105,6 @@ String _new_screen_temp(String screen_name_camelcase) {
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens.dart';
-import 'local_widget/local_widgets.dart';
-
 
 
 class ${screen_name_camelcase}Screen extends StatelessWidget {

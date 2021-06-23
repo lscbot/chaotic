@@ -21,19 +21,12 @@ Future<void> new_screen(String screen_name) async {
   final new_screen_file = _get_file('$screen_name.dart', new_screen_folder);
   final new_provider_file =
       _get_file('${screen_name}_provider.dart', new_screen_folder);
-  final local_widget_folder = _get_dir('local_widget', new_screen_folder);
-  final local_widgets_file =
-      _get_file('local_widgets.dart', local_widget_folder);
-  final local_model_folder = _get_dir('local_model', new_screen_folder);
-  final local_models_file = _get_file('local_models.dart', local_model_folder);
   //join folders and files in one structure map
   final new_screen_structure = {
     new_screen_folder: [
       new_screen_file,
       new_provider_file,
     ],
-    local_model_folder: local_models_file,
-    local_widget_folder: local_widgets_file,
   };
   if (new_screen_file.existsSync()) {
     print('$screen_name is exists before');
@@ -96,12 +89,10 @@ Future<void> new_local_model(
   String screen_name,
 ) async {
   final screen_folder = _get_dir(screen_name, _screen_folder);
-  if (!screen_folder.existsSync()) await new_screen(screen_name);
   final local_model_folder = _get_dir('local_model', screen_folder);
-  final local_models_file = _get_file(
-    'local_models.dart',
-    local_model_folder,
-  );
+  final local_models_file = _get_file('local_models.dart', local_model_folder);
+  if (!screen_folder.existsSync()) await new_screen(screen_name);
+  if (!local_model_folder.existsSync()) await local_model_folder.create();
   final new_model_file = _get_file(
     '$local_model_name.dart',
     local_model_folder,
@@ -110,16 +101,15 @@ Future<void> new_local_model(
     '''\nexport '$local_model_name.dart';''',
     mode: FileMode.append,
   );
-  await new_model_file.writeAsString(
-    _new_widget_temp(local_model_name.to_camelcase()),
-  );
+  await new_model_file.create();
 }
 
 Future<void> new_local_widget(
     String local_widget_name, String screen_name) async {
   final screen_folder = _get_dir(screen_name, _screen_folder);
-  if (!screen_folder.existsSync()) await new_screen(screen_name);
   final local_widget_folder = _get_dir('local_widget', screen_folder);
+  if (!screen_folder.existsSync()) await new_screen(screen_name);
+  if (!local_widget_folder.existsSync()) await local_widget_folder.create();
   final local_widgets_file = _get_file(
     'local_widgets.dart',
     local_widget_folder,
