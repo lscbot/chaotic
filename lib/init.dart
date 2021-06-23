@@ -125,3 +125,7 @@ Future<void> new_local_widget(
   await new_widget_file
       .writeAsString(_new_widget_temp(local_widget_name.to_camelcase()));
 }
+
+void upgrade_chaotic() {
+  Shell().run('''flutter pub upgrade chaotic''');
+}
