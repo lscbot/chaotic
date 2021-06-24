@@ -1,6 +1,6 @@
 # chaotic
 
-A new Flutter package project.
+A new Flutter framework ,helpers and widgets.
 
 ## Getting Started
 
