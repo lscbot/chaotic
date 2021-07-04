@@ -12,10 +12,11 @@ Future<void> _create_project_structure() async {
 Future<void> _create_structure_from_map(Map structure) async {
   for (final item in structure.entries) {
     await item.key.create();
-    if (item.value is List) {
-      await _create_structure_from_list(item.value);
+    final value = item.value;
+    if (value is List) {
+      await _create_structure_from_list(value);
     } else {
-      await item.value.create();
+      await value.create();
     }
   }
 }

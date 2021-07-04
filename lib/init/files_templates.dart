@@ -21,13 +21,9 @@ export 'path_and_apis.dart';
 const _cmd_commands_temp = '''
 flutter pub add lint
 flutter pub add bot_toast
-flutter pub add provider
-flutter pub add easy_localization
 flutter pub add shared_preferences
 flutter pub add package_info
-flutter pub add sizer
 flutter pub add flutter_svg
-flutter pub add get
 flutter pub get
 ''';
 
@@ -52,8 +48,14 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   
   Provider.debugCheckInvalidValueType = null;
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
   
-    runApp(
+  runApp(
     EasyLocalization(
       supportedLocales: const [
         Locale('en'),
