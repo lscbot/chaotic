@@ -1,4 +1,3 @@
-
 part of widgets;
 
 class CustomText extends StatelessWidget {
@@ -14,7 +13,7 @@ class CustomText extends StatelessWidget {
     this.tag,
     this.text,
     this.style,
-    this.fontSize = 14,
+    this.fontSize = 10,
     this.fontWeight = FontWeight.normal,
     this.color = Colors.black,
     this.maxLines = 1,
@@ -30,7 +29,7 @@ class CustomText extends StatelessWidget {
           color: color,
         );
     return Text(
-      text ?? tr(tag?? 'text and tag = null'),
+      text ?? tr(tag ?? 'text and tag = null'),
       style: deliStyle,
       overflow: TextOverflow.ellipsis,
       textAlign: align,

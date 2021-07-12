@@ -3,7 +3,11 @@ include: package:lint/analysis_options.yaml
 linter:
   rules:
     non_constant_identifier_names: false
+    avoid_print: true
 
 analyzer:
   errors:
     unused_import: warning
+
+strong-mode:
+    implicit-casts: false

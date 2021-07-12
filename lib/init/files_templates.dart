@@ -6,11 +6,11 @@ include: package:lint/analysis_options.yaml
 linter:
   rules:
     non_constant_identifier_names: false
-    sort_pub_dependencies: false
-
 analyzer:
   errors:
     unused_import: warning
+  strong-mode:
+    implicit-casts: true
 ''';
 
 const _commons_temp = '''
@@ -38,6 +38,7 @@ const _main_temp = '''
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
