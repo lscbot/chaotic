@@ -5,17 +5,17 @@ class DioService {
 
   static final _instance = DioService._();
 
-  factory DioService.get_instance() => _instance;
+  factory DioService.getInstance() => _instance;
 
   //--------------------
   final _dio = Dio();
-  bool debug_mode = true;
-  set init(BaseOptions baseOptions) {
-    _dio.options = baseOptions;
+  bool debugMode = false;
+  set options(BaseOptions baseOptions) => _dio.options = baseOptions;
+  void initInterceptors() {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          if (debug_mode) {
+          if (debugMode) {
             log('*' * 10);
             log(options.data.toString());
             log(options.headers.toString());
@@ -26,8 +26,8 @@ class DioService {
           return handler.next(options); //continue
         },
         onResponse: (response, handler) {
-          if (debug_mode) {
-            log(response.headers.toString());
+          if (debugMode) {
+            log(response.data.toString());
             log('${response.statusCode} ${response.requestOptions.method} ${response.requestOptions.path}');
             log('*' * 10);
           }
@@ -35,7 +35,7 @@ class DioService {
           return handler.next(response); // continue
         },
         onError: (DioError e, handler) {
-          if (debug_mode) {
+          if (debugMode) {
             log('ERROR[${e.response?.statusCode}] => PATH: ${e.requestOptions.path}');
             log('*' * 10);
           }
@@ -59,7 +59,7 @@ class DioService {
       );
       return response;
     } catch (e) {
-      get_error_message(e as Exception);
+      getErrorMessage(e as Exception);
     } finally {
       BotToast.closeAllLoading();
     }
@@ -80,7 +80,7 @@ class DioService {
       );
       return response;
     } catch (e) {
-      get_error_message(e as Exception);
+      getErrorMessage(e as Exception);
     } finally {
       BotToast.closeAllLoading();
     }
@@ -101,7 +101,7 @@ class DioService {
       );
       return response;
     } catch (e) {
-      get_error_message(e as Exception);
+      getErrorMessage(e as Exception);
     } finally {
       BotToast.closeAllLoading();
     }
@@ -122,13 +122,13 @@ class DioService {
       );
       return response;
     } catch (e) {
-      get_error_message(e as Exception);
+      getErrorMessage(e as Exception);
     } finally {
       BotToast.closeAllLoading();
     }
   }
 
-  void get_error_message(Exception error) {
+  void getErrorMessage(Exception error) {
     String errorDescription = '';
     if (error is DioError) {
       switch (error.type) {
@@ -149,14 +149,14 @@ class DioService {
           errorDescription = 'Send timeout with server';
           break;
         case DioErrorType.response:
-          final error_response_codes = [404, 500, 503];
-          if (error_response_codes.contains(error.response!.statusCode)) {
+          final errorResponseCodes = [404, 500, 503];
+          if (errorResponseCodes.contains(error.response!.statusCode)) {
             errorDescription = error.response?.statusMessage ?? '';
           } else {
-            final dio_error = error;
-            if (dio_error is DioError) {
+            final dioError = error;
+            if (dioError is DioError) {
               errorDescription =
-                  dio_error.response?.data['message'].toString() ?? '';
+                  dioError.response?.data['message'].toString() ?? '';
             } else {
               errorDescription =
                   'Failed to load data - status code: ${error.response!.statusCode}';
@@ -168,9 +168,9 @@ class DioService {
       errorDescription = 'Unexpected error occurred ${error.toString()}';
     }
     BotToast.showSimpleNotification(
-      title: 'Something Wrong',
+      title: tr('notification.titleError'),
       subTitle: errorDescription,
     );
-    if (debug_mode) log(errorDescription);
+    if (debugMode) log(errorDescription);
   }
 }

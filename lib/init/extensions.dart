@@ -1,10 +1,10 @@
 part of init;
 
 extension on String {
-  String to_camelcase() {
+  String toCamelcase() {
     final camelcase = StringBuffer();
-    this.split('_').forEach((name_part) => camelcase.write(
-        '${name_part.trim()[0].toUpperCase()}${name_part.trim().substring(1)}'
+    split('_').forEach((namePart) => camelcase.write(
+        '${namePart.trim()[0].toUpperCase()}${namePart.trim().substring(1)}'
             .trim()));
 
     return camelcase.toString();

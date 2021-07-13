@@ -1,6 +1,6 @@
 part of init;
 
-const _analysis_options_temp = '''
+const _analysisOptionsTemp = '''
 include: package:lint/analysis_options.yaml
 
 linter:
@@ -13,12 +13,12 @@ analyzer:
     implicit-casts: true
 ''';
 
-const _commons_temp = '''
+const _commonsTemp = '''
 export 'color.dart';
 export 'path_and_apis.dart';
 ''';
 
-const _cmd_commands_temp = '''
+const _cmdCommandsTemp = '''
 flutter pub add lint
 flutter pub add bot_toast
 flutter pub add shared_preferences
@@ -27,14 +27,14 @@ flutter pub add flutter_svg
 flutter pub get
 ''';
 
-const _assets_temp = '''
+const _assetsTemp = '''
   
   assets:
     - assets/images/
     - assets/lang/
 ''';
 
-const _main_temp = '''
+const _mainTemp = '''
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -88,106 +88,117 @@ class MyApp extends StatelessWidget {
           ),
         ),
         // home: Provider(create: (_) => , 
-            //   child:,
-            // ),
+        //   child:,
+        // ),
       ),
     );
   }
 }
 ''';
 
-const _ar_temp = '''
+const _arTemp = '''
 {}
 ''';
-const _en_temp = '''
+const _enTemp = '''
 {}
 ''';
 
-String _new_screen_temp(String screen_name_camelcase) {
+String _newScreenTemp(String screenNameCamelcase) {
   return '''
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens.dart';
 
 
-class ${screen_name_camelcase}Screen extends StatelessWidget {
+class ${screenNameCamelcase}Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<${screen_name_camelcase}Provider>(context);
+    final provider = Provider.of<${screenNameCamelcase}Provider>(context);
     return const Scaffold(
-      body: Center(child: Text('hello world, this is ${screen_name_camelcase} screen')),
+      body: Center(child: Text('hello world, this is $screenNameCamelcase screen')),
     );
   }
 }
   ''';
 }
 
-String _new_provider_temp(String screen_name_camelcase) {
+String _newProviderTemp(String screenNameCamelcase) {
   return '''
 import 'package:flutter/material.dart';
 
-class ${screen_name_camelcase}Provider extends ChangeNotifier{
+class ${screenNameCamelcase}Provider extends ChangeNotifier{
 
 }
   ''';
 }
 
-String _new_widget_temp(String widget_name) {
+String _newWidgetTemp(String widgetName) {
   return '''
 import 'package:flutter/material.dart';
 
-class $widget_name extends StatelessWidget {
+class $widgetName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.all(8.0),
-      child: Text('${widget_name} widget'),
+      child: Text('$widgetName widget'),
     );
   }
 }
   ''';
 }
 
-String _new_service_temp(String service_name) {
+String _modelTemp(String modelName) => '''
+extension ${modelName.toCamelcase()}Functions on ${modelName.toCamelcase()}{
+}
+class ${modelName.toCamelcase()}{
+}
+''';
+String _newServiceTemp(String serviceName) {
   return '''
-class ${service_name}Service {
-  ${service_name}Service._();
-  static final _instance = ${service_name}Service._();
-  factory ${service_name}Service.get_instance() => _instance;
+class ${serviceName}Service {
+  ${serviceName}Service._();
+  static final _instance = ${serviceName}Service._();
+  factory ${serviceName}Service.getInstance() => _instance;
   //--------------------
 }
   ''';
 }
 
-Future<void> _export_new_screen(String screen_name) async {
-  final export_temp = '''\nexport '$screen_name/$screen_name.dart';
-export '$screen_name/${screen_name}_provider.dart';
+Future<void> _exportNewScreen(String screenName) async {
+  final exportTemp = '''
+  export '$screenName/$screenName.dart';
+  export '$screenName/${screenName}_provider.dart';
 ''';
-  await _screens_file.writeAsString(export_temp, mode: FileMode.append);
+  await _screens_file.writeAsString(exportTemp, mode: FileMode.append);
 }
 
-Future<void> _export_new_common(String common_name) async {
-  final export_temp = '''\nexport '$common_name.dart';
+Future<void> _exportNewCommon(String commonName) async {
+  final exportTemp = '''
+  export '$commonName.dart';
 ''';
-  await _commons_file.writeAsString(export_temp, mode: FileMode.append);
+  await _commons_file.writeAsString(exportTemp, mode: FileMode.append);
 }
 
-Future<void> _export_new_widget(String widget_name) async {
-  final export_temp = '''\nexport '$widget_name.dart';
+Future<void> _exportNewWidget(String widgetName) async {
+  final exportTemp = '''
+  export '$widgetName.dart';
 ''';
-  await _widgets_file.writeAsString(export_temp, mode: FileMode.append);
+  await _widgets_file.writeAsString(exportTemp, mode: FileMode.append);
 }
 
-Future<void> _export_new_model(String model_name) async {
-  final export_temp = '''\nexport '$model_name.dart';
+Future<void> _exportNewModel(String modelName) async {
+  final exportTemp = '''
+  export '$modelName.dart';
 ''';
-  await _models_file.writeAsString(export_temp, mode: FileMode.append);
+  await _models_file.writeAsString(exportTemp, mode: FileMode.append);
 }
 
-Future<void> _export_new_service(String service_name) async {
-  final export_temp = '''\nexport '$service_name.dart';
+Future<void> _exportNewService(String serviceName) async {
+  final exportTemp = '''
+  export '$serviceName.dart';
 ''';
-  await _services_file.writeAsString(export_temp, mode: FileMode.append);
+  await _services_file.writeAsString(exportTemp, mode: FileMode.append);
 }

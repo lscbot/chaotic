@@ -2,8 +2,10 @@ include: package:lint/analysis_options.yaml
 
 linter:
   rules:
-    non_constant_identifier_names: false
+#    non_constant_identifier_names: false
     avoid_print: true
+    avoid_setters_without_getters: false
+    sort_pub_dependencies: false
 
 analyzer:
   errors:

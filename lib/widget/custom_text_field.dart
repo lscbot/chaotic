@@ -1,8 +1,6 @@
 part of widgets;
 
 abstract class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField._();
-
   factory CustomTextFormField({
     TextInputType? textInputType = TextInputType.name,
     TextEditingController? controller,
@@ -17,7 +15,7 @@ abstract class CustomTextFormField extends StatelessWidget {
     return _CustomTextFormField(
       controller: controller,
       textInputType: textInputType,
-      validation: validation,
+      validation: validation ?? (value) => true,
       hint: hint,
       errorMsg: errorMsg,
       nextFocus: nextFocus,
@@ -43,7 +41,7 @@ abstract class CustomTextFormField extends StatelessWidget {
     return _CustomTextFormFieldLabel(
       controller: controller,
       textInputType: textInputType,
-      validation: validation,
+      validation: validation ?? (value) => true,
       hint: hint,
       errorMsg: errorMsg,
       nextFocus: nextFocus,
@@ -72,7 +70,7 @@ abstract class CustomTextFormField extends StatelessWidget {
     return _CustomTextFormFieldLabelCode(
       controller: controller,
       textInputType: textInputType,
-      validation: validation,
+      validation: validation ?? (value) => true,
       hint: hint,
       errorMsg: errorMsg,
       nextFocus: nextFocus,
@@ -84,6 +82,8 @@ abstract class CustomTextFormField extends StatelessWidget {
       code: code,
     );
   }
+
+  const CustomTextFormField._();
 }
 
 class _CustomTextFormField extends CustomTextFormField {
@@ -95,7 +95,7 @@ class _CustomTextFormField extends CustomTextFormField {
   final bool? enable;
   final int? maxLines;
 
-  _CustomTextFormField({
+  const _CustomTextFormField({
     this.textInputType,
     this.controller,
     this.validation,
@@ -120,7 +120,7 @@ class _CustomTextFormField extends CustomTextFormField {
       controller: controller,
       validator: (value) {
         final result = validation?.call(value) ?? true;
-        return result ? null: errorMsg;
+        return result ? null : errorMsg;
       },
       decoration: InputDecoration(
         fillColor: Colors.white,
@@ -156,7 +156,7 @@ class _CustomTextFormFieldLabel extends CustomTextFormField {
   final bool? enable;
   final int? maxLines;
 
-  _CustomTextFormFieldLabel({
+  const _CustomTextFormFieldLabel({
     this.controller,
     this.icon,
     this.label,
@@ -218,7 +218,7 @@ class _CustomTextFormFieldLabelCode extends CustomTextFormField {
   final bool? enable;
   final int? maxLines;
 
-  _CustomTextFormFieldLabelCode({
+  const _CustomTextFormFieldLabelCode({
     this.icon,
     this.label,
     this.controller,

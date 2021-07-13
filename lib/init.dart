@@ -1,5 +1,6 @@
 library init;
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:process_run/shell.dart';
@@ -10,122 +11,120 @@ part 'init/files_templates.dart';
 part 'init/init_helper.dart';
 
 Future<void> init() async {
-  await _create_project_structure();
-  await _add_packages();
-  await _init_yaml();
+  await _createProjectStructure();
+  await _addPackages();
+  await _initYaml();
 }
 
-Future<void> new_screen(String screen_name) async {
+Future<void> newScreen(String screenName) async {
   //init folders and files
-  final new_screen_folder = _get_dir(screen_name, _screen_folder);
-  final new_screen_file = _get_file('$screen_name.dart', new_screen_folder);
-  final new_provider_file =
-      _get_file('${screen_name}_provider.dart', new_screen_folder);
+  final newScreenFolder = _get_dir(screenName, _screen_folder);
+  final newScreenFile = _get_file('$screenName.dart', newScreenFolder);
+  final newProviderFile =
+      _get_file('${screenName}_provider.dart', newScreenFolder);
   //join folders and files in one structure map
-  final new_screen_structure = {
-    new_screen_folder: [
-      new_screen_file,
-      new_provider_file,
+  final newScreenStructure = {
+    newScreenFolder: [
+      newScreenFile,
+      newProviderFile,
     ],
   };
-  if (new_screen_file.existsSync()) {
-    print('$screen_name is exists before');
+  if (newScreenFile.existsSync()) {
+    log('$screenName is exists before');
     return;
   }
   //creating a structure
-  await _create_structure_from_map(new_screen_structure);
+  await _createStructureFromMap(newScreenStructure);
   //write an export files
-  await _export_new_screen(screen_name);
+  await _exportNewScreen(screenName);
   //write template screen and provider
-  await new_screen_file
-      .writeAsString(_new_screen_temp(screen_name.to_camelcase()));
-  await new_provider_file
-      .writeAsString(_new_provider_temp(screen_name.to_camelcase()));
+  await newScreenFile.writeAsString(_newScreenTemp(screenName.toCamelcase()));
+  await newProviderFile
+      .writeAsString(_newProviderTemp(screenName.toCamelcase()));
 }
 
-Future<void> new_common(String common_name) async {
-  final new_common_file = _get_file('$common_name.dart', _common_folder);
-  new_common_file.create();
-  await _export_new_common(common_name);
+Future<void> newCommon(String commonName) async {
+  final newCommonFile = _get_file('$commonName.dart', _common_folder);
+  newCommonFile.create();
+  await _exportNewCommon(commonName);
 }
 
-Future<void> new_widget(String widget_name) async {
-  final new_widget_file = _get_file('$widget_name.dart', _widget_folder);
-  new_widget_file.create();
+Future<void> newWidget(String widgetName) async {
+  final newWidgetFile = _get_file('$widgetName.dart', _widget_folder);
+  newWidgetFile.create();
 
-  await new_widget_file
-      .writeAsString(_new_widget_temp(widget_name.to_camelcase()));
-  await _export_new_widget(widget_name);
+  await newWidgetFile.writeAsString(_newWidgetTemp(widgetName.toCamelcase()));
+  await _exportNewWidget(widgetName);
 }
 
-Future<void> new_model(String model_name) async {
-  final new_model_file = _get_file('$model_name.dart', _model_folder);
-  new_model_file.create();
-  await _export_new_model(model_name);
+Future<void> newModel(String modelName) async {
+  final newModelFile = _get_file('$modelName.dart', _model_folder);
+  newModelFile.writeAsString(_modelTemp(modelName));
+  await _exportNewModel(modelName);
 }
 
-Future<void> new_asset(String new_asset) async {
-  final new_image_folder = _get_dir(new_asset, _images_folder);
-  new_image_folder.create();
+Future<void> newAsset(String newAsset) async {
+  final newImageFolder = _get_dir(newAsset, _images_folder);
+  newImageFolder.create();
 
-  final yaml_content = await _yaml_file.readAsString();
-  final new_yaml_content = yaml_content.replaceAll('''assets:''', '''assets:
-    - assets/images/$new_asset/''');
-  await _yaml_file.writeAsString(new_yaml_content);
+  final yamlContent = await _yaml_file.readAsString();
+  final newYamlContent = yamlContent.replaceAll('''assets:''', '''
+  assets:
+    - assets/images/$newAsset/''');
+  await _yaml_file.writeAsString(newYamlContent);
   await Shell().run('''flutter pub get''');
 }
 
-Future<void> new_service(String service_name) async {
-  final new_service_file = _get_file('$service_name.dart', _service_folder);
-  new_service_file.create();
+Future<void> newService(String serviceName) async {
+  final newServiceFile = _get_file('$serviceName.dart', _service_folder);
+  newServiceFile.create();
 
-  await new_service_file
-      .writeAsString(_new_service_temp(service_name.to_camelcase()));
-  await _export_new_service(service_name);
+  await newServiceFile
+      .writeAsString(_newServiceTemp(serviceName.toCamelcase()));
+  await _exportNewService(serviceName);
 }
 
-Future<void> new_local_model(
-  String local_model_name,
-  String screen_name,
+Future<void> newLocalModel(
+  String localModelName,
+  String screenName,
 ) async {
-  final screen_folder = _get_dir(screen_name, _screen_folder);
-  final local_model_folder = _get_dir('local_model', screen_folder);
-  final local_models_file = _get_file('local_models.dart', local_model_folder);
-  if (!screen_folder.existsSync()) await new_screen(screen_name);
-  if (!local_model_folder.existsSync()) await local_model_folder.create();
-  final new_model_file = _get_file(
-    '$local_model_name.dart',
-    local_model_folder,
+  final screenFolder = _get_dir(screenName, _screen_folder);
+  final localModelFolder = _get_dir('local_model', screenFolder);
+  final localModelsFile = _get_file('local_models.dart', localModelFolder);
+  if (!screenFolder.existsSync()) await newScreen(screenName);
+  if (!localModelFolder.existsSync()) await localModelFolder.create();
+  final newModelFile = _get_file(
+    '$localModelName.dart',
+    localModelFolder,
   );
-  await local_models_file.writeAsString(
-    '''\nexport '$local_model_name.dart';''',
+  await localModelsFile.writeAsString(
+    '''\nexport '$localModelName.dart';''',
     mode: FileMode.append,
   );
-  await new_model_file.create();
+  await newModelFile.writeAsString(_modelTemp(localModelName));
 }
 
-Future<void> new_local_widget(
-    String local_widget_name, String screen_name) async {
-  final screen_folder = _get_dir(screen_name, _screen_folder);
-  final local_widget_folder = _get_dir('local_widget', screen_folder);
-  if (!screen_folder.existsSync()) await new_screen(screen_name);
-  if (!local_widget_folder.existsSync()) await local_widget_folder.create();
-  final local_widgets_file = _get_file(
+Future<void> newLocalWidget(String localWidgetName, String screenName) async {
+  final screenFolder = _get_dir(screenName, _screen_folder);
+  final localWidgetFolder = _get_dir('local_widget', screenFolder);
+  if (!screenFolder.existsSync()) await newScreen(screenName);
+  if (!localWidgetFolder.existsSync()) await localWidgetFolder.create();
+  final localWidgetsFile = _get_file(
     'local_widgets.dart',
-    local_widget_folder,
+    localWidgetFolder,
   );
-  final new_widget_file = _get_file(
-    '$local_widget_name.dart',
-    local_widget_folder,
+  final newWidgetFile = _get_file(
+    '$localWidgetName.dart',
+    localWidgetFolder,
   );
-  await local_widgets_file.writeAsString(
-    '''\nexport '$local_widget_name.dart';''',
+  await localWidgetsFile.writeAsString(
+    '''\nexport '$localWidgetName.dart';''',
     mode: FileMode.append,
   );
-  await new_widget_file
-      .writeAsString(_new_widget_temp(local_widget_name.to_camelcase()));
+  await newWidgetFile
+      .writeAsString(_newWidgetTemp(localWidgetName.toCamelcase()));
 }
 
-void upgrade_chaotic() {
+void upgradeChaotic() {
   Shell().run('''flutter pub upgrade chaotic''');
 }

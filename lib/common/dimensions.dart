@@ -1,9 +1,9 @@
 part of commons;
 
-double get_width(int percent) => Get.width * get_percent(percent);
-double get_height(int percent) => Get.height * get_percent(percent);
+double getWidth(int percent) => Get.width * _getPercent(percent);
+double getHeight(int percent) => Get.height * _getPercent(percent);
 
-double get_percent(int percent) {
+double _getPercent(int percent) {
   int p = percent < 0 ? 0 : percent;
   p = percent > 100 ? 100 : percent;
 

@@ -27,7 +27,7 @@ class CustomForm extends StatelessWidget {
       margin: EdgeInsets.only(
         left: 20,
         right: 20,
-        top: get_height(marginTopPercent),
+        top: getHeight(marginTopPercent),
       ),
       decoration: BoxDecoration(
         boxShadow: [
@@ -71,7 +71,7 @@ class CustomForm extends StatelessWidget {
                 backgroundColor: shadowColor,
                 radius: imageRadius,
                 child: Image.asset(
-                  get_asset_image(image),
+                  getImage(image),
                   width: imageRadius,
                   height: imageRadius,
                   fit: BoxFit.cover,

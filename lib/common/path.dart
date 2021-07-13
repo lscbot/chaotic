@@ -1,5 +1,5 @@
 part of commons;
 
-String get_asset_image(String image_path) => 'assets/images/$image_path';
+String getImage(String imagePath) => 'assets/images/$imagePath';
 
-const get_network_image = 'https://source.unsplash.com/random';
+const networkImage = 'https://source.unsplash.com/random';
