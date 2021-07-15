@@ -111,10 +111,11 @@ import '../screens.dart';
 
 
 class ${screenNameCamelcase}Screen extends StatelessWidget {
-
+  late ${screenNameCamelcase}Provider provider;
+  
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<${screenNameCamelcase}Provider>(context);
+    provider = Provider.of<${screenNameCamelcase}Provider>(context);
     return const Scaffold(
       body: Center(child: Text('hello world, this is $screenNameCamelcase screen')),
     );

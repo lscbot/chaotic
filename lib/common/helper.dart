@@ -5,10 +5,10 @@ bool phoneValidation(String? value) {
 }
 
 bool passwordValidation(String? value) {
-  return value != null && value.length >= 6;
+  return value != null && value.length >= 8;
 }
 
-bool nameValidation(String? value) {
+bool textValidation(String? value) {
   return value != null && value.isNotEmpty;
 }
 

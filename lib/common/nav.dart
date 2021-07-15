@@ -13,8 +13,7 @@ Future<dynamic> push<T extends ChangeNotifier>(Widget screen,
   );
 }
 
-void pushReplacement<T extends ChangeNotifier>(Widget screen,
-    [T? provider]) async {
+void pushReplacement<T extends ChangeNotifier>(Widget screen, [T? provider]) {
   Navigator.of(Get.context!).pushReplacement(
     MaterialPageRoute(
       builder: (_) {

@@ -10,7 +10,12 @@ class DioService {
   //--------------------
   final _dio = Dio();
   bool debugMode = false;
+
   set options(BaseOptions baseOptions) => _dio.options = baseOptions;
+
+  void addHeader(Map<String, String> header) =>
+      _dio.options.headers.addAll(header);
+
   void initInterceptors() {
     _dio.interceptors.add(
       InterceptorsWrapper(
@@ -46,7 +51,7 @@ class DioService {
     );
   }
 
-  Future<Response<T>?> get<T>(
+  Future<Result<T>> get<T>(
     String uri, {
     Map<String, dynamic>? queryParameters,
     bool showLoading = false,
@@ -57,15 +62,16 @@ class DioService {
         uri,
         queryParameters: queryParameters,
       );
-      return response;
+      return Result(response: response);
     } catch (e) {
       getErrorMessage(e as Exception);
+      return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
     }
   }
 
-  Future<Response<T>?> post<T>(
+  Future<Result<T>> post<T>(
     String uri, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
@@ -78,15 +84,16 @@ class DioService {
         data: data,
         queryParameters: queryParameters,
       );
-      return response;
+      return Result(response: response);
     } catch (e) {
       getErrorMessage(e as Exception);
+      return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
     }
   }
 
-  Future<Response<T>?> put<T>(
+  Future<Result<T>> put<T>(
     String uri, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
@@ -99,15 +106,16 @@ class DioService {
         data: FormData.fromMap(data ?? {}),
         queryParameters: queryParameters,
       );
-      return response;
+      return Result(response: response);
     } catch (e) {
       getErrorMessage(e as Exception);
+      return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
     }
   }
 
-  Future<Response<T>?> delete<T>(
+  Future<Result<T>> delete<T>(
     String uri, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
@@ -120,9 +128,10 @@ class DioService {
         data: FormData.fromMap(data ?? {}),
         queryParameters: queryParameters,
       );
-      return response;
+      return Result(response: response);
     } catch (e) {
       getErrorMessage(e as Exception);
+      return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
     }
@@ -157,6 +166,7 @@ class DioService {
             if (dioError is DioError) {
               errorDescription =
                   dioError.response?.data['message'].toString() ?? '';
+              log(dioError.response?.data.toString() ?? '');
             } else {
               errorDescription =
                   'Failed to load data - status code: ${error.response!.statusCode}';
@@ -173,4 +183,11 @@ class DioService {
     );
     if (debugMode) log(errorDescription);
   }
+}
+
+class Result<T> {
+  final Response<T>? response;
+  final Exception? error;
+
+  Result({this.response, this.error});
 }

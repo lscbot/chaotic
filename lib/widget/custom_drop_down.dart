@@ -46,6 +46,7 @@ class CustomDropDown<T> extends StatelessWidget {
           child: items != null && items!.isNotEmpty
               ? DropdownButtonFormField<T>(
                   value: value,
+                  isExpanded: true,
                   validator: (value) => value != null ? null : '',
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -58,6 +59,7 @@ class CustomDropDown<T> extends StatelessWidget {
                               value: item.value,
                               child: CustomText(
                                 text: item.text,
+                                maxLines: 2,
                               ),
                             ),
                           )
