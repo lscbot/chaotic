@@ -2,11 +2,11 @@ part of init;
 
 Future<void> _createProjectStructure() async {
   await _createStructureFromMap(_structure);
-  await _commons_file.writeAsString(_commonsTemp);
-  await _ar_file.writeAsString(_arTemp);
-  await _en_file.writeAsString(_enTemp);
-  await _analysis_options_file.writeAsString(_analysisOptionsTemp);
-  await _main_file.writeAsString(_mainTemp);
+  await _commonsFile.writeAsString(_commonsTemp);
+  await _arFile.writeAsString(_arTemp);
+  await _enFile.writeAsString(_enTemp);
+  await _analysisOptionsFile.writeAsString(_analysisOptionsTemp);
+  await _mainFile.writeAsString(_mainTemp);
 }
 
 Future<void> _createStructureFromMap(Map structure) async {
@@ -45,10 +45,10 @@ Future<void> _addPackages() async {
 }
 
 Future<void> _initYaml() async {
-  final yamlContent = await _yaml_file.readAsString();
+  final yamlContent = await _yamlFile.readAsString();
   final newYamlContent = yamlContent.split('\n')
-    ..removeWhere((line) => line.trim().startsWith('#'))
-    ..removeWhere((line) => line.trim().isEmpty);
-  await _yaml_file.writeAsString(newYamlContent.join('\n'));
-  await _yaml_file.writeAsString(_assetsTemp, mode: FileMode.append);
+    ..removeWhere((line) => line.trim().startsWith('#'));
+
+  await _yamlFile.writeAsString(newYamlContent.join('\n'));
+  await _yamlFile.writeAsString(_assetsTemp, mode: FileMode.append);
 }

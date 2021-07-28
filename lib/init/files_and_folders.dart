@@ -1,76 +1,76 @@
 part of init;
 
 //assets
-final _assets_folder = Directory('./assets');
-final _images_folder = _get_dir('images', _assets_folder);
-final _fonts_folder = _get_dir('fonts', _assets_folder);
-final _lang_folder = _get_dir('lang', _assets_folder);
-final _ar_file = _get_file('ar.json', _lang_folder);
-final _en_file = _get_file('en.json', _lang_folder);
+final _assetsFolder = Directory('./assets');
+final _imagesFolder = _getDir('images', _assetsFolder);
+final _fontsFolder = _getDir('fonts', _assetsFolder);
+final _langFolder = _getDir('lang', _assetsFolder);
+final _arFile = _getFile('ar.json', _langFolder);
+final _enFile = _getFile('en.json', _langFolder);
 //src
-final _src_folder = Directory('./lib/src');
+final _srcFolder = Directory('./lib/src');
 //commons
-final _common_folder = _get_dir('common', _src_folder);
-final _commons_file = _get_file('commons.dart', _common_folder);
-final _color_file = _get_file('color.dart', _common_folder);
-final _path_and_apis_file = _get_file('path_and_apis.dart', _common_folder);
+final _commonFolder = _getDir('common', _srcFolder);
+final _commonsFile = _getFile('commons.dart', _commonFolder);
+final _colorFile = _getFile('color.dart', _commonFolder);
+final _pathAndApisFile = _getFile('path_and_apis.dart', _commonFolder);
 //screens
-final _screen_folder = _get_dir('screen', _src_folder);
-final _screens_file = _get_file('screens.dart', _screen_folder);
+final _screenFolder = _getDir('screen', _srcFolder);
+final _screensFile = _getFile('screens.dart', _screenFolder);
 //widgets
-final _widget_folder = _get_dir('widget', _src_folder);
-final _widgets_file = _get_file('widgets.dart', _widget_folder);
+final _widgetFolder = _getDir('widget', _srcFolder);
+final _widgetsFile = _getFile('widgets.dart', _widgetFolder);
 //services
-final _service_folder = _get_dir('service', _src_folder);
-final _services_file = _get_file('services.dart', _service_folder);
+final _serviceFolder = _getDir('service', _srcFolder);
+final _servicesFile = _getFile('services.dart', _serviceFolder);
 //models
-final _model_folder = _get_dir('model', _src_folder);
-final _models_file = _get_file('models.dart', _model_folder);
+final _modelFolder = _getDir('model', _srcFolder);
+final _modelsFile = _getFile('models.dart', _modelFolder);
 //analysis options
-final _analysis_options_file = File('./analysis_options.yaml');
+final _analysisOptionsFile = File('./analysis_options.yaml');
 //yaml
-final _yaml_file = File('./pubspec.yaml');
+final _yamlFile = File('./pubspec.yaml');
 //main
-final _main_file = File('./lib/main.dart');
+final _mainFile = File('./lib/main.dart');
 
-Directory _get_dir(String name, Directory parent) {
-  return Directory(parent.path + '/$name');
+Directory _getDir(String name, Directory parent) {
+  return Directory('${parent.path}${'/$name'}');
 }
 
-File _get_file(String name, Directory parent) {
-  return File(parent.path + '/$name');
+File _getFile(String name, Directory parent) {
+  return File('${parent.path}${'/$name'}');
 }
 
 final _structure = {
-  _assets_folder: [
-    _images_folder,
-    _fonts_folder,
+  _assetsFolder: [
+    _imagesFolder,
+    _fontsFolder,
     {
-      _lang_folder: [
-        _ar_file,
-        _en_file,
+      _langFolder: [
+        _arFile,
+        _enFile,
       ],
     }
   ],
-  _src_folder: [
+  _srcFolder: [
     {
-      _common_folder: [
-        _commons_file,
-        _color_file,
-        _path_and_apis_file,
+      _commonFolder: [
+        _commonsFile,
+        _colorFile,
+        _pathAndApisFile,
       ]
     },
     {
-      _screen_folder: _screens_file,
+      _screenFolder: _screensFile,
     },
     {
-      _widget_folder: _widgets_file,
+      _widgetFolder: _widgetsFile,
     },
     {
-      _service_folder: _services_file,
+      _serviceFolder: _servicesFile,
     },
     {
-      _model_folder: _models_file,
+      _modelFolder: _modelsFile,
     }
   ],
 };

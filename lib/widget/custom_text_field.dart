@@ -281,9 +281,6 @@ class _CustomTextFormFieldLabelCode extends CustomTextFormField {
                 onChanged: (countryCode) {
                   code?.dialCode = countryCode.dialCode ?? '+nullCode';
                 },
-                dialogSize: const Size.fromHeight(500),
-                showFlagMain: false,
-                padding: EdgeInsets.zero,
                 searchDecoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -293,6 +290,9 @@ class _CustomTextFormFieldLabelCode extends CustomTextFormField {
                     vertical: 8,
                   ),
                 ),
+                dialogSize: Size(getWidth(95), getHeight(50)),
+                showFlagMain: false,
+                padding: EdgeInsets.zero,
                 countryFilter: const ['+966'],
                 textStyle: TextStyle(color: Colors.black, fontSize: 10.sp),
               ),

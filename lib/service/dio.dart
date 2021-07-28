@@ -52,14 +52,15 @@ class DioService {
   }
 
   Future<Result<T>> get<T>(
-    String uri, {
+    String api, {
     Map<String, dynamic>? queryParameters,
+    String? parameter,
     bool showLoading = false,
   }) async {
     try {
       if (showLoading) BotToast.showLoading();
       final response = await _dio.get<T>(
-        uri,
+        parameter == null ? api : '$api/$parameter',
         queryParameters: queryParameters,
       );
       return Result(response: response);
@@ -72,7 +73,7 @@ class DioService {
   }
 
   Future<Result<T>> post<T>(
-    String uri, {
+    String api, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
     bool showLoading = false,
@@ -80,7 +81,7 @@ class DioService {
     try {
       if (showLoading) BotToast.showLoading();
       final response = await _dio.post<T>(
-        uri,
+        api,
         data: data,
         queryParameters: queryParameters,
       );
@@ -94,15 +95,16 @@ class DioService {
   }
 
   Future<Result<T>> put<T>(
-    String uri, {
+    String api, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
+    String? parameter,
     bool showLoading = false,
   }) async {
     try {
       if (showLoading) BotToast.showLoading();
       final response = await _dio.put<T>(
-        uri,
+        parameter == null ? api : '$api/$parameter',
         data: FormData.fromMap(data ?? {}),
         queryParameters: queryParameters,
       );
@@ -116,15 +118,16 @@ class DioService {
   }
 
   Future<Result<T>> delete<T>(
-    String uri, {
+    String api, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
+    String? parameter,
     bool showLoading = false,
   }) async {
     try {
       if (showLoading) BotToast.showLoading();
       final response = await _dio.delete<T>(
-        uri,
+        parameter == null ? api : '$api/$parameter',
         data: FormData.fromMap(data ?? {}),
         queryParameters: queryParameters,
       );

@@ -22,8 +22,14 @@ const _cmdCommandsTemp = '''
 flutter pub add lint
 flutter pub add bot_toast
 flutter pub add shared_preferences
-flutter pub add package_info
 flutter pub add flutter_svg
+flutter pub add sizer
+flutter pub add flutter_spinkit
+flutter pub add get
+flutter pub add provider
+flutter pub add dio
+flutter pub add url_launcher
+flutter pub add easy_localization
 flutter pub get
 ''';
 
@@ -173,33 +179,33 @@ Future<void> _exportNewScreen(String screenName) async {
   export '$screenName/$screenName.dart';
   export '$screenName/${screenName}_provider.dart';
 ''';
-  await _screens_file.writeAsString(exportTemp, mode: FileMode.append);
+  await _screensFile.writeAsString(exportTemp, mode: FileMode.append);
 }
 
 Future<void> _exportNewCommon(String commonName) async {
   final exportTemp = '''
   export '$commonName.dart';
 ''';
-  await _commons_file.writeAsString(exportTemp, mode: FileMode.append);
+  await _commonsFile.writeAsString(exportTemp, mode: FileMode.append);
 }
 
 Future<void> _exportNewWidget(String widgetName) async {
   final exportTemp = '''
   export '$widgetName.dart';
 ''';
-  await _widgets_file.writeAsString(exportTemp, mode: FileMode.append);
+  await _widgetsFile.writeAsString(exportTemp, mode: FileMode.append);
 }
 
 Future<void> _exportNewModel(String modelName) async {
   final exportTemp = '''
   export '$modelName.dart';
 ''';
-  await _models_file.writeAsString(exportTemp, mode: FileMode.append);
+  await _modelsFile.writeAsString(exportTemp, mode: FileMode.append);
 }
 
 Future<void> _exportNewService(String serviceName) async {
   final exportTemp = '''
   export '$serviceName.dart';
 ''';
-  await _services_file.writeAsString(exportTemp, mode: FileMode.append);
+  await _servicesFile.writeAsString(exportTemp, mode: FileMode.append);
 }
