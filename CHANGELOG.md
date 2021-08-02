@@ -7,3 +7,9 @@
 * init lib
 * common lib
 * widget lib
+
+## 1.3.0
+
+* github tracker
+* more helper functions
+* automatics add packages

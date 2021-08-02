@@ -38,6 +38,4 @@ void pushClear<T extends ChangeNotifier>(Widget screen, [T? provider]) {
   );
 }
 
-void pop() async {
-  Navigator.of(Get.context!).pop();
-}
+Future pop({dynamic result}) async => Navigator.of(Get.context!).pop(result);

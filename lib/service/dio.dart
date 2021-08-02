@@ -4,6 +4,8 @@ class DioService {
   DioService._();
 
   static final _instance = DioService._();
+  void Function()? onUnauthenticated;
+  void Function(String errorDescription, Exception e)? onRegularError;
 
   factory DioService.getInstance() => _instance;
 
@@ -15,6 +17,8 @@ class DioService {
 
   void addHeader(Map<String, String> header) =>
       _dio.options.headers.addAll(header);
+
+  void removeHeader(String header) => _dio.options.headers.remove(header);
 
   void initInterceptors() {
     _dio.interceptors.add(
@@ -56,6 +60,7 @@ class DioService {
     Map<String, dynamic>? queryParameters,
     String? parameter,
     bool showLoading = false,
+    bool unAuthDialog = true,
   }) async {
     try {
       if (showLoading) BotToast.showLoading();
@@ -65,7 +70,7 @@ class DioService {
       );
       return Result(response: response);
     } catch (e) {
-      getErrorMessage(e as Exception);
+      getErrorMessage(e as Exception, unAuthDialog);
       return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
@@ -77,6 +82,7 @@ class DioService {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
     bool showLoading = false,
+    bool unAuthDialog = true,
   }) async {
     try {
       if (showLoading) BotToast.showLoading();
@@ -87,7 +93,7 @@ class DioService {
       );
       return Result(response: response);
     } catch (e) {
-      getErrorMessage(e as Exception);
+      getErrorMessage(e as Exception, unAuthDialog);
       return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
@@ -100,6 +106,7 @@ class DioService {
     Map<String, dynamic>? queryParameters,
     String? parameter,
     bool showLoading = false,
+    bool unAuthDialog = true,
   }) async {
     try {
       if (showLoading) BotToast.showLoading();
@@ -110,7 +117,7 @@ class DioService {
       );
       return Result(response: response);
     } catch (e) {
-      getErrorMessage(e as Exception);
+      getErrorMessage(e as Exception, unAuthDialog);
       return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
@@ -123,6 +130,7 @@ class DioService {
     Map<String, dynamic>? queryParameters,
     String? parameter,
     bool showLoading = false,
+    bool unAuthDialog = true,
   }) async {
     try {
       if (showLoading) BotToast.showLoading();
@@ -133,14 +141,14 @@ class DioService {
       );
       return Result(response: response);
     } catch (e) {
-      getErrorMessage(e as Exception);
+      getErrorMessage(e as Exception, unAuthDialog);
       return Result(error: e);
     } finally {
       BotToast.closeAllLoading();
     }
   }
 
-  void getErrorMessage(Exception error) {
+  void getErrorMessage(Exception error, bool unAuth) {
     String errorDescription = '';
     if (error is DioError) {
       switch (error.type) {
@@ -149,10 +157,6 @@ class DioService {
           break;
         case DioErrorType.connectTimeout:
           errorDescription = 'Connection timeout with API server';
-          break;
-        case DioErrorType.other:
-          errorDescription =
-              'Connection to API server failed due to internet connection';
           break;
         case DioErrorType.receiveTimeout:
           errorDescription = 'Receive timeout in connection with API server';
@@ -167,6 +171,9 @@ class DioService {
           } else {
             final dioError = error;
             if (dioError is DioError) {
+              if (dioError.response?.statusCode == 401 && unAuth) {
+                onUnauthenticated?.call();
+              }
               errorDescription =
                   dioError.response?.data['message'].toString() ?? '';
               log(dioError.response?.data.toString() ?? '');
@@ -176,14 +183,14 @@ class DioService {
             }
           }
           break;
+        case DioErrorType.other:
+          errorDescription = error.toString();
+          break;
       }
     } else {
       errorDescription = 'Unexpected error occurred ${error.toString()}';
     }
-    BotToast.showSimpleNotification(
-      title: tr('notification.titleError'),
-      subTitle: errorDescription,
-    );
+    onRegularError?.call(errorDescription, error);
     if (debugMode) log(errorDescription);
   }
 }

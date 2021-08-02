@@ -35,3 +35,44 @@ void preventLandScapeMode() {
     ],
   );
 }
+
+String enumToString<T>(T value) {
+  return value.toString().split('.').last;
+}
+
+Future<String> getDeviceName() async {
+  String brand = '';
+  String id = '';
+  if (Platform.isAndroid) {
+    final deviceInfo = await PlatformDeviceId.deviceInfoPlugin.androidInfo;
+    brand = deviceInfo.device;
+    id = deviceInfo.androidId;
+  } else {
+    final deviceInfo = await PlatformDeviceId.deviceInfoPlugin.iosInfo;
+    brand = deviceInfo.model;
+    id = deviceInfo.identifierForVendor;
+  }
+
+  return '$brand|$id';
+}
+
+Future<String?> getDeviceToken() async {
+  final firebaseMessaging = FirebaseMessaging.instance;
+  if (Platform.isIOS) {
+    firebaseMessaging.requestPermission();
+    await firebaseMessaging.getNotificationSettings();
+  }
+  final token = await firebaseMessaging.getToken();
+  return token;
+}
+
+/// keys => code, number
+Future<Map<String, String>> getApplicationVersion() async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  final code = packageInfo.version;
+  final number = packageInfo.buildNumber;
+  return {
+    'code': code,
+    'number': number,
+  };
+}

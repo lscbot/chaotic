@@ -5,7 +5,9 @@ include: package:lint/analysis_options.yaml
 
 linter:
   rules:
-    non_constant_identifier_names: false
+    avoid_setters_without_getters: false
+    sort_pub_dependencies: false
+    directives_ordering: false
 analyzer:
   errors:
     unused_import: warning
@@ -55,12 +57,7 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   
   Provider.debugCheckInvalidValueType = null;
-  SystemChrome.setPreferredOrientations(
-    [
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ],
-  );
+  preventLandScapeMode();
   
   runApp(
     EasyLocalization(

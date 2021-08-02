@@ -9,7 +9,7 @@ class CustomText extends StatelessWidget {
   final int maxLines;
   final TextAlign align;
 
-  CustomText({
+  const CustomText({
     this.tag,
     this.text,
     this.style,
@@ -22,7 +22,7 @@ class CustomText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle deliStyle = style ??
+    final deliStyle = style ??
         TextStyle(
           fontSize: fontSize.sp,
           fontWeight: fontWeight,
