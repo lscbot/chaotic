@@ -13,3 +13,7 @@
 * github tracker
 * more helper functions
 * automatics add packages
+
+## 1.3.1
+
+* Migrated from the deprecated package_info plugin to package_info_plus.
